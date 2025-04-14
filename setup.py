@@ -55,10 +55,10 @@ corrections = {  # 0-don't apply, 1-apply
 lateral_systematics = { 
 "CV":          [0,  1, [], []],   # [sys_source, sys_universe, processes_ID (empty -> all), subsources] 
 #"JES":         [1,  54, [], ["AbsoluteMPFBias_fc", "AbsoluteScale_fc", "AbsoluteStat", "FlavorQCD_fc", "Fragmentation_fc", "PileUpDataMC_fc", "PileUpPtBB_fc", "PileUpPtEC1_fc", "PileUpPtEC2_fc", "PileUpPtHF_fc", "PileUpPtRef_fc", "RelativeFSR_fc", "RelativeJEREC1", "RelativeJEREC2", "RelativeJERHF_fc", "RelativePtBB_fc", "RelativePtEC1", "RelativePtEC2", "RelativePtHF_fc", "RelativeBal_fc", "RelativeSample", "RelativeStatEC", "RelativeStatFSR", "RelativeStatHF", "SinglePionECAL_fc", "SinglePionHCAL_fc", "TimePtEta"]],
-"JER":         [28,  2, [], []],
-"UncMET":      [29,  2, [], []],
-"Recoil":      [30,  6, ["02"], []],
-"JES":         [41,  2, [], ["Total"]],
+#"JER":         [28,  2, [], []],
+#"UncMET":      [29,  2, [], []],
+#"Recoil":      [30,  6, ["02"], []],
+#"JES":         [41,  2, [], ["Total"]],
 }
 
 vertical_systematics = {
@@ -87,7 +87,7 @@ vertical_systematics = {
 NumMaxEvents = -1
 NumFilesPerJob_Data = 1   
 NumFilesPerJob_Signal = 50 
-NumFilesPerJob_Bkg = 5      
+NumFilesPerJob_Bkg = 1
 
 
 #--------------------------------------------------------------------------------------------------
@@ -101,9 +101,9 @@ periods = [
 ]
 
 datasets = [
-"Data_Lep",
-"Data_MET",
-"Signal",
+#"Data_Lep",
+#"Data_MET",
+#"Signal",
 "DYPt50ToInf",
 "DYPt0To50",
 "TTFullLep",
