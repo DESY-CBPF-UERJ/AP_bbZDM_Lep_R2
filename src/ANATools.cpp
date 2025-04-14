@@ -1870,8 +1870,8 @@ void HEPHero::Get_ttbar_Variables(){
     if(selectedJet.size() >= 2){
         KinematicReconstruction myTTbarObject;
         TLorentzVector met;
-        met.SetPxPyPzE ( MET_pt*cos(MET_phi) , MET_pt*sin(MET_phi) , 0., 0.);
-        myTTbarObject.kinReco( lep_1, lep_2, vecJets, met ) ; // To turn on/off the smearing process, you have to change the NoSmearingFlag in the "KinematicReconstruction.h". Remember that using smeatinf process, you need a root file with infotmation about the resolutions.
+        met.SetPxPyPzE ( MET_pt*cos(MET_phi) , MET_pt*sin(MET_phi) , 0., MET_pt);
+        myTTbarObject.kinReco( lep_1, lep_2, vecJets, met ) ; // To turn on/off the smearing process, you have to change the NoSmearingFlag in the "KinematicReconstruction.h". Remember that using smearinf process, you need a root file with infotmation about the resolutions.
         if ( myTTbarObject.getNSol() > 0 ){
             ttbar_reco_v2 = 1;
             ttbar_score_v2 = myTTbarObject.getWeight( );

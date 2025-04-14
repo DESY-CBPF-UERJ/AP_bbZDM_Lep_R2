@@ -9,6 +9,8 @@
 #include "RoccoR.h"
 #include "RecoilCorrector.h"
 #include "correction.h"
+#include <fdeep/fdeep.hpp>
+#include <fdeep/model.hpp>
 
 
 using namespace std;
@@ -58,6 +60,16 @@ class HEPHero : public HEPBase {
         void ORDERSelection();
         void ORDERSystematic();
         void FinishORDER();
+        void SetupCWRinfo();
+        bool CWRinfoRegion();
+        void CWRinfoSelection();
+        void CWRinfoSystematic();
+        void FinishCWRinfo();
+        void SetupHEPData();
+        bool HEPDataRegion();
+        void HEPDataSelection();
+        void HEPDataSystematic();
+        void FinishHEPData();
         // INSERT YOUR SELECTION HERE
 
 

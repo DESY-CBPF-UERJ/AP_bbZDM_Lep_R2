@@ -1,4 +1,1 @@
-/store/user/dperezad/MC_Production/2016APV/NANOAOD/bbHToZaToLLChiChi_2HDMa_MH-500_Ma-200_MChi-45_TuneCP5_13TeV_madgraph-pythia8/Re-NANOAOD/220125_170959/0000/EXO-RunIISummer20UL16NanoAODAPVv9-0_3.root
-/store/user/dperezad/MC_Production/2016APV/NANOAOD/bbHToZaToLLChiChi_2HDMa_MH-500_Ma-200_MChi-45_TuneCP5_13TeV_madgraph-pythia8/Re-NANOAOD/220125_170959/0000/EXO-RunIISummer20UL16NanoAODAPVv9-0_1.root
-/store/user/dperezad/MC_Production/2016APV/NANOAOD/bbHToZaToLLChiChi_2HDMa_MH-500_Ma-200_MChi-45_TuneCP5_13TeV_madgraph-pythia8/Re-NANOAOD/220125_170959/0000/EXO-RunIISummer20UL16NanoAODAPVv9-0_2.root
-/store/user/dperezad/MC_Production/2016APV/NANOAOD/bbHToZaToLLChiChi_2HDMa_MH-500_Ma-200_MChi-45_TuneCP5_13TeV_madgraph-pythia8/Re-NANOAOD/220125_170959/0000/EXO-RunIISummer20UL16NanoAODAPVv9-0_4.root
+/store/mc/RunIISummer20UL16NanoAODAPVv9/bbHToZaToLLChiChi_2HDMa_MH-500_Ma-200_MChi-45_TuneCP5_13TeV_madgraph-pythia8/NANOAODSIM/106X_mcRun2_asymptotic_preVFP_v11-v2/260000/A34DFC33-32B5-D749-BEC9-83DA9D0690B3.root

@@ -500,7 +500,7 @@ float HEPHero::GetPileupWeight( float Pileup_nTrueInt, string sysType ){
 float HEPHero::GetTriggerWeight( string sysID ){
 
     double trigger_weight = 1.;
-    if( dataset_group != "Data" ){
+    if( dataset_group != "Data" and Trigger() ){
 
         string sample;
         if( (RecoLepID == 11) || ((RecoLepID > 31100) && (RecoLepID <= 31199)) || ((RecoLepID > 41100) && (RecoLepID <= 41199)) ){
@@ -573,6 +573,8 @@ void HEPHero::JESvariation(){
             float jet_pt = Jet_pt[ijet];
             float jet_eta = Jet_eta[ijet];
             float jet_area = Jet_area[ijet];
+            float jet_pt_nomuon = Jet_pt[ijet]*(1-Jet_muonSubtrFactor[ijet]);
+            float jet_EmEF = Jet_neEmEF[ijet] + Jet_chEmEF[ijet];
 
             if( jet_raw_pt <= 10 ) continue;
             if( jet_eta >= 5.2 ) continue;
@@ -601,9 +603,6 @@ void HEPHero::JESvariation(){
             }else{
                 Jet_pt[ijet] = jet_pt*(1. + pt_unc);
             }
-
-            float jet_pt_nomuon = Jet_pt[ijet]*(1-Jet_muonSubtrFactor[ijet]);
-            float jet_EmEF = Jet_neEmEF[ijet] + Jet_chEmEF[ijet];
 
             // Cut according to MissingETRun2Corrections Twiki
             if( jet_pt_nomuon <= 15 ) continue;

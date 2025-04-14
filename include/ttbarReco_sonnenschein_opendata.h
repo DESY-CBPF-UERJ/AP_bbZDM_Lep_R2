@@ -301,7 +301,7 @@ ZSolutionKinRecoDilepton* SolveKinRecoDilepton(const TLorentzVector& lm, const T
 //    TH1D* ambiguity = NULL:     histogram to be filled with the number of ambiguities (for debugging purpose, not filled by default, see there usage in SolveKinRecoDilepton())
 // Returns 1 for successfull kinreco, 0 otherwise
 // 
-int KinRecoDilepton(const TLorentzVector& lm, const TLorentzVector& mp, const std::vector<TLorentzVector>& jets, 
+int KinRecoDilepton(const TLorentzVector& lm, const TLorentzVector& lp, const std::vector<TLorentzVector>& jets,
   const double metX, const double metY, TLorentzVector& t, TLorentzVector& tbar, float& finalWeight, TH1D* hInacc = NULL, TH1D* hAmbig = NULL)
 {
   // solution status (to be returned)
@@ -359,7 +359,7 @@ int KinRecoDilepton(const TLorentzVector& lm, const TLorentzVector& mp, const st
         jetBbar = *jet2;
       // get solution
       TLorentzVector tThis, tbarThis;
-      ZSolutionKinRecoDilepton* solution = SolveKinRecoDilepton(lm, mp, jetB, jetBbar, metX, metY, hInacc, ambiguity);
+      ZSolutionKinRecoDilepton* solution = SolveKinRecoDilepton(lm, lp, jetB, jetBbar, metX, metY, hInacc, ambiguity);
       if(!solution || solution->zWeight < 0)
         continue;
       // set b-tagging number
@@ -377,26 +377,18 @@ int KinRecoDilepton(const TLorentzVector& lm, const TLorentzVector& mp, const st
   // is available, take the solution with the largest weight 
   // (calculated according to the neutrino momenta spectrum, 
   // see DESY-THESIS-20120-037)
-  for(std::vector<ZSolutionKinRecoDilepton*>::iterator it = vSolutions.begin(); it != vSolutions.end(); it++)
-  {
+  for(std::vector<ZSolutionKinRecoDilepton*>::iterator it = vSolutions.begin(); it != vSolutions.end(); it++){
     ZSolutionKinRecoDilepton* sol = *it;
-    // worse b-tagging
-    if(sol->zBTag < bTagBest)
+    if(sol->zBTag < bTagBest){        // worse b-tagging
       continue;
-    // better b-tagging
-    else if(sol->zBTag > bTagBest)
-    {
+    }else if(sol->zBTag > bTagBest){  // better b-tagging
       bTagBest = sol->zBTag;
       t = sol->zT;
       tbar = sol->zTbar;
       solved = 1;
       finalWeight = sol->zWeight;
-    }
-    // same b-tagging: check weight
-    else
-    {
-      if(sol->zWeight > weightBest)
-      {
+    }else{                            // same b-tagging: check weight
+      if(sol->zWeight > weightBest){
         weightBest = sol->zWeight;
         t = sol->zT;
         tbar = sol->zTbar;
@@ -405,8 +397,8 @@ int KinRecoDilepton(const TLorentzVector& lm, const TLorentzVector& mp, const st
       }
     }
   }
-  if(solved && hAmbig)
-  {
+
+  if(solved && hAmbig){
     // for debugging purpose, if needed
     hAmbig->Fill(*ambiguity);
     delete ambiguity;

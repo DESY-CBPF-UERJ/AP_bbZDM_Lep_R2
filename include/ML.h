@@ -39,7 +39,7 @@ using namespace std;
 //-------------------------------------------------------------------------
 class NN_Keras {
     private:
-        fdeep::model NN_model = fdeep::load_model("include/keras_initial_model.json");
+        fdeep::model NN_model = fdeep::load_model("AP_bbZDM_Lep_R2/include/keras_initial_model.json"); // It will return error
         rapidjson::Document preprocessing;
     public:
         void readFiles( string model_file, string preprocessing_file ){

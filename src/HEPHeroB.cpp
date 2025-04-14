@@ -1086,6 +1086,8 @@ void HEPHero::SetupAna(){
     else if( _SELECTION == "Test" ) SetupTest();
     else if( _SELECTION == "ONNX" ) SetupONNX();
     else if( _SELECTION == "ORDER" ) SetupORDER();
+    else if( _SELECTION == "CWRinfo" ) SetupCWRinfo();
+    else if( _SELECTION == "HEPData" ) SetupHEPData();
     // SETUP YOUR SELECTION HERE
     else {
       cout << "Unknown selection requested. Exiting. " << endl;
@@ -1098,6 +1100,8 @@ bool HEPHero::AnaRegion(){
     if( _SELECTION == "Test" && !TestRegion() ) Selected = false;
     if( _SELECTION == "ONNX" && !ONNXRegion() ) Selected = false;
     if( _SELECTION == "ORDER" && !ORDERRegion() ) Selected = false;
+    if( _SELECTION == "CWRinfo" && !CWRinfoRegion() ) Selected = false;
+    if( _SELECTION == "HEPData" && !HEPDataRegion() ) Selected = false;
     // SET THE REGION OF YOUR SELECTION HERE
 
     return Selected;
@@ -1107,6 +1111,8 @@ void HEPHero::AnaSelection(){
     if( _SELECTION == "Test" ) TestSelection();
     if( _SELECTION == "ONNX" ) ONNXSelection();
     if( _SELECTION == "ORDER" ) ORDERSelection();
+    if( _SELECTION == "CWRinfo" ) CWRinfoSelection();
+    if( _SELECTION == "HEPData" ) HEPDataSelection();
     // CALL YOUR SELECTION HERE
 }
 
@@ -1114,6 +1120,8 @@ void HEPHero::AnaSystematic(){
     if( _SELECTION == "Test" ) TestSystematic();
     if( _SELECTION == "ONNX" ) ONNXSystematic();
     if( _SELECTION == "ORDER" ) ORDERSystematic();
+    if( _SELECTION == "CWRinfo" ) CWRinfoSystematic();
+    if( _SELECTION == "HEPData" ) HEPDataSystematic();
     // PRODUCE THE SYSTEMATIC OF YOUR SELECTION HERE
 }
 
@@ -1121,6 +1129,8 @@ void HEPHero::FinishAna(){
     if( _SELECTION == "Test" ) FinishTest();
     if( _SELECTION == "ONNX" ) FinishONNX();
     if( _SELECTION == "ORDER" ) FinishORDER();
+    if( _SELECTION == "CWRinfo" ) FinishCWRinfo();
+    if( _SELECTION == "HEPData" ) FinishHEPData();
     // FINISH YOUR SELECTION HERE
 }
    
