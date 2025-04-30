@@ -1,3 +1,3 @@
 # ![channel](feynman_diagram.svg)
 
-**Analysis project for the leptonic channel of the bbZ+DM search using data from Run 2. extra.**
+**Analysis project for the leptonic channel of the bbZ+DM search using data from Run 2.**
