@@ -78,55 +78,55 @@ bool HEPHero::HEPDataRegion() {
 
     HEPData::trigger = Trigger();
 
-    if( !Trigger() ) return false;                                              // Selected by triggers
+    //if( !Trigger() ) return false;                                              // Selected by triggers
     _cutFlow.at("00_Trigger") += evtWeight;
 
     //if( !METFilters() ) return false;                                           // Selected by MET filters
     //_cutFlow.at("01_MET_Filters") += evtWeight;
 
-    if( !(RecoLepID > 0) ) return false;                                        // Has two reconstructed leptons with opposite signal
+    //if( !(RecoLepID > 0) ) return false;                                        // Has two reconstructed leptons with opposite signal
     _cutFlow.at("02_TwoLepOS") += evtWeight;
 
-    if( !(MET_pt > MET_CUT) ) return false;                                     // MET > CUT
+    //if( !(MET_pt > MET_CUT) ) return false;                                     // MET > CUT
     _cutFlow.at("03_MET") += evtWeight;
 
     Get_Leptonic_Info(true, true);
 
-    if( !(LeadingLep_pt > LEADING_LEP_PT_CUT) ) return false;                   // Leading lepton pt > CUT
+    //if( !(LeadingLep_pt > LEADING_LEP_PT_CUT) ) return false;                   // Leading lepton pt > CUT
     _cutFlow.at("04_LeadingLep_Pt") += evtWeight;
 
     Get_LepLep_Variables(true, true);
 
-    if( !(LepLep_pt > LEPLEP_PT_CUT) ) return false;                            // Two leptons system pt > CUT
+    //if( !(LepLep_pt > LEPLEP_PT_CUT) ) return false;                            // Two leptons system pt > CUT
     _cutFlow.at("05_LepLep_Pt") += evtWeight;
 
-    if( !(LepLep_deltaM < LEPLEP_DM_CUT) ) return false;                        // Difference between Z boson mass and the inv. mass of two leptons < CUT
+    //if( !(LepLep_deltaM < LEPLEP_DM_CUT) ) return false;                        // Difference between Z boson mass and the inv. mass of two leptons < CUT
     _cutFlow.at("06_LepLep_DM") += evtWeight;
 
-    if( !(LepLep_deltaR < LEPLEP_DR_CUT) ) return false;                        // Upper cut in LepLep Delta R
+    //if( !(LepLep_deltaR < LEPLEP_DR_CUT) ) return false;                        // Upper cut in LepLep Delta R
     _cutFlow.at("07_LepLep_DR") += evtWeight;
 
-    if( !(MET_LepLep_deltaPhi > MET_LEPLEP_DPHI_CUT) ) return false;            // Dealta Phi between MET and two leptons system > CUT
+    //if( !(MET_LepLep_deltaPhi > MET_LEPLEP_DPHI_CUT) ) return false;            // Dealta Phi between MET and two leptons system > CUT
     _cutFlow.at("08_MET_LepLep_DPhi") += evtWeight;
 
-    if( !(MET_LepLep_Mt > MET_LEPLEP_MT_CUT) ) return false;                    // Transverse mass between MET and two leptons system > CUT
+    //if( !(MET_LepLep_Mt > MET_LEPLEP_MT_CUT) ) return false;                    // Transverse mass between MET and two leptons system > CUT
     _cutFlow.at("09_MET_LepLep_Mt") += evtWeight;
 
-    if( !(Njets >= 1) ) return false;                                           //
+    //if( !(Njets >= 1) ) return false;                                           //
     _cutFlow.at("10_Njets") += evtWeight;
 
-    if( !(Nbjets >= 1) ) return false;                                           //
+    //if( !(Nbjets >= 1) ) return false;                                           //
     _cutFlow.at("11_Nbjets") += evtWeight;
 
-    if( !(RecoLepID < 100) ) return false;                                           //
+    //if( !(RecoLepID < 100) ) return false;                                           //
     _cutFlow.at("12_TwoLepOSSF") += evtWeight;
 
     Get_ttbar_Variables();
 
-    if( !(ttbar_reco == 0) ) return false;                                           //
+    //if( !(ttbar_reco == 0) ) return false;                                           //
     _cutFlow.at("13_No_ttbar_Reco") += evtWeight;
 
-    //Weight_corrections();
+    Weight_corrections();
 
     _cutFlow.at("14_Corrected") += evtWeight;
 
