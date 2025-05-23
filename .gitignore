@@ -7,7 +7,7 @@ src/Makefile
 src/cmake_install.cmake
 ana/local_output/
 Metadata/ConfigFile_*
-
+Datasets/__pycache__/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
