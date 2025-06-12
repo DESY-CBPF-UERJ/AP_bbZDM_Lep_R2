@@ -13,7 +13,7 @@ void HEPHero::Regions(){
     if( (RecoLepID < 100) && 
         (ttbar_reco == 0) &&
         (Nbjets >= 1) //&&
-        //((dataset_group != "Data") || (MLP4_score_torch < 0.22))
+        //((dataset_group != "Data") || (MLP4_score < 0.22))
       ){                                        // [Signal Region]
         RegionID = 0;
     }
@@ -80,13 +80,13 @@ void HEPHero::Signal_discriminators(){
     //MLP_score_keras = MLP_keras.predict({LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi});
 
     //---------------------------------------------------------------------------------------------
-    MLP_score_torch = MLP_torch.predict({LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, TrailingLep_pt, MT2LL});//, Nbjets*floatC}); backup
+    //MLP_score_torch = MLP_torch.predict({LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, TrailingLep_pt, MT2LL});//, Nbjets*floatC}); backup
 
     //MLP_score_torch = MLP_torch.predict({LeadingLep_pt, TrailingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, MT2LL});//, Nbjets*floatC});
 
     //MLP_score_torch = MLP_torch.predict({LeadingLep_pt, TrailingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, MT2LL, Dijet_deltaEta, Dijet_pt, Dijet_M});//, Nbjets*floatC});
 
-    MLP4_score_torch = pow(1.e4,MLP_score_torch)/1.e4;
+    //MLP4_score_torch = pow(1.e4,MLP_score_torch)/1.e4;
 
     //---------------------------------------------------------------------------------------------
     vector<vector<float>> inputTensorValues = {{LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, TrailingLep_pt, MT2LL}};

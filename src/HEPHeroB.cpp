@@ -38,9 +38,9 @@ void HEPHero::FillControlVariables( string key, string value){
     if( key == "JERC"                       )   jet_jerc_file = value;
     if( key == "mu_RoccoR"                  )   muon_roc_file = value;
     if( key == "Z_recoil"                   )   Z_recoil_file = value;
-    if( key == "NN_prep_keras"              )   preprocessing_keras_file = value;
-    if( key == "NN_model_keras"             )   model_keras_file = value;
-    if( key == "NN_model_torch"             )   model_torch_file = value;
+    //if( key == "NN_prep_keras"              )   preprocessing_keras_file = value;
+    //if( key == "NN_model_keras"             )   model_keras_file = value;
+    //if( key == "NN_model_torch"             )   model_torch_file = value;
     if( key == "NN_model_onnx"              )   model_onnx_file = value;
 
     //----SELECTION--------------------------------------------------------------------------------------

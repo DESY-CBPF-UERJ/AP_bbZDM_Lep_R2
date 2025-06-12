@@ -272,15 +272,14 @@ class HEPHero : public HEPBase {
         TRandom random_recoil_18;
 
         //----MACHINE LEARNING---------------------------------------
-        string preprocessing_keras_file;
-        string model_keras_file;
-        NN_Keras MLP_keras;
-        float MLP_score_keras;
-        string model_torch_file;
-        NN_Torch MLP_torch;
-        float MLP_score_torch;
-        float MLP4_score_torch;
-        Ort::Session session_{nullptr};
+        //string preprocessing_keras_file;
+        //string model_keras_file;
+        //NN_Keras MLP_keras;
+        //float MLP_score_keras;
+        //string model_torch_file;
+        //NN_Torch MLP_torch;
+        //float MLP_score_torch;
+        //float MLP4_score_torch;
         string model_onnx_file;
         ONNX_MODEL MLP_onnx;
         float MLP_score_onnx;

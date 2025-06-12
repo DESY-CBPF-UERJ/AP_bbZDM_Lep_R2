@@ -28,13 +28,13 @@
 #include "rapidcsv.h"
 #include <fdeep/fdeep.hpp>
 #include <fdeep/model.hpp>
-#include <torch/torch.h>
-#include <torch/script.h>
+//#include <torch/torch.h>
+//#include <torch/script.h>
 #include "onnxruntime_cxx_api.h"
 
 using namespace std;
 
-
+/*
 //-------------------------------------------------------------------------
 // NN Model (Keras)
 //-------------------------------------------------------------------------
@@ -98,7 +98,7 @@ class NN_Torch {
             }
         }
 };
-
+*/
 
 //-------------------------------------------------------------------------
 // ONNX Model

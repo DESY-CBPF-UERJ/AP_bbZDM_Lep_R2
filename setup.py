@@ -118,12 +118,12 @@ datasets = [
 # Metadata
 #--------------------------------------------------------------------------------------------------
 metadata = {       
-"NN_prep_keras_X_XX         ": analysis+"/Metadata/ML/Keras/preprocessing.json",
-"NN_model_keras_X_XX        ": analysis+"/Metadata/ML/Keras/NN_4_100_elu_adam/model.json",
-"NN_model_torch_0_16        ": analysis+"/Metadata/ML/Torch/DeepCSV/2016preVFP/model_scripted.pt",
-"NN_model_torch_1_16        ": analysis+"/Metadata/ML/Torch/DeepCSV/2016postVFP/model_scripted.pt",
-"NN_model_torch_0_17        ": analysis+"/Metadata/ML/Torch/DeepCSV/2017/model_scripted.pt",
-"NN_model_torch_0_18        ": analysis+"/Metadata/ML/Torch/DeepCSV/2018/model_scripted.pt",
+#"NN_prep_keras_X_XX         ": analysis+"/Metadata/ML/Keras/preprocessing.json",
+#"NN_model_keras_X_XX        ": analysis+"/Metadata/ML/Keras/NN_4_100_elu_adam/model.json",
+#"NN_model_torch_0_16        ": analysis+"/Metadata/ML/Torch/DeepCSV/2016preVFP/model_scripted.pt",
+#"NN_model_torch_1_16        ": analysis+"/Metadata/ML/Torch/DeepCSV/2016postVFP/model_scripted.pt",
+#"NN_model_torch_0_17        ": analysis+"/Metadata/ML/Torch/DeepCSV/2017/model_scripted.pt",
+#"NN_model_torch_0_18        ": analysis+"/Metadata/ML/Torch/DeepCSV/2018/model_scripted.pt",
 "NN_model_onnx_0_16         ": analysis+"/Metadata/ML/ONNX/DeepCSV/2016preVFP/model.onnx",
 "NN_model_onnx_1_16         ": analysis+"/Metadata/ML/ONNX/DeepCSV/2016postVFP/model.onnx",
 "NN_model_onnx_0_17         ": analysis+"/Metadata/ML/ONNX/DeepCSV/2017/model.onnx",
