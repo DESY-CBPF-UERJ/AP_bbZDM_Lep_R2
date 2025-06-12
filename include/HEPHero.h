@@ -280,6 +280,11 @@ class HEPHero : public HEPBase {
         NN_Torch MLP_torch;
         float MLP_score_torch;
         float MLP4_score_torch;
+        Ort::Session session_{nullptr};
+        string model_onnx_file;
+        ONNX_MODEL MLP_onnx;
+        float MLP_score_onnx;
+        float MLP4_score_onnx;
 
         //----HEM----------------------------------------------------
         bool HEM_issue_ele;

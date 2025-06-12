@@ -35,7 +35,8 @@ void HEPHero::SetupTest() {
     _cutFlow.insert(pair<string,double>("12_Corrected", 0) );
 
     //======SETUP HISTOGRAMS=======================================================================
-    //makeHist( "histogram1DName", 40, 0., 40., "xlabel", "ylabel" );   [example]
+    makeHist( "MLP4_score_torch", 100, 0., 1., "MLP4_score_torch", "Number of events");
+    makeHist( "MLP4_score_onnx", 100, 0., 1., "MLP4_score_onnx", "Number of events");
     //makeHist( "histogram2DName", 40, 0., 40., 100, 0., 50., "xlabel",  "ylabel", "zlabel", "COLZ" );   [example]
 
     //======SETUP SYSTEMATIC HISTOGRAMS============================================================
@@ -126,6 +127,7 @@ void HEPHero::SetupTest() {
     //HDF_insert( "MLP_score_keras", &MLP_score_keras );
     //HDF_insert( "MLP_score", &MLP_score_torch );
     HDF_insert( "MLP4_score", &MLP4_score_torch );
+    HDF_insert( "MLP4_score_onnx", &MLP4_score_onnx );
     //HDF_insert( "param_variation_weights", &Test::param_variation_weights );
     //HDF_insert( "MET_Lep3_Mt", &MET_Lep3_Mt );
     //HDF_insert( "Lep3Lep4_M", &Lep3Lep4_M );
@@ -223,6 +225,8 @@ bool HEPHero::TestRegion() {
         }
     }
 
+    _histograms1D.at("MLP4_score_torch").Fill( MLP4_score_torch, evtWeight );
+    _histograms1D.at("MLP4_score_onnx").Fill( MLP4_score_onnx, evtWeight );
     
     return true;
 }

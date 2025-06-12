@@ -263,7 +263,7 @@ void HEPHero::PreRoutines() {
     //----MACHINE LEARNING-------------------------------------------------------------------------
     MLP_keras.readFiles( model_keras_file, preprocessing_keras_file );
     MLP_torch.readFile( model_torch_file );
-
+    MLP_onnx.readFile( model_onnx_file );
 
 
 }

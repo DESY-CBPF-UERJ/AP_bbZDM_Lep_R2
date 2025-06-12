@@ -79,6 +79,7 @@ void HEPHero::Signal_discriminators(){
     // https://github.com/Dobiasd/frugally-deep
     //MLP_score_keras = MLP_keras.predict({LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi});
 
+    //---------------------------------------------------------------------------------------------
     MLP_score_torch = MLP_torch.predict({LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, TrailingLep_pt, MT2LL});//, Nbjets*floatC}); backup
 
     //MLP_score_torch = MLP_torch.predict({LeadingLep_pt, TrailingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, MT2LL});//, Nbjets*floatC});
@@ -86,6 +87,20 @@ void HEPHero::Signal_discriminators(){
     //MLP_score_torch = MLP_torch.predict({LeadingLep_pt, TrailingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, MT2LL, Dijet_deltaEta, Dijet_pt, Dijet_M});//, Nbjets*floatC});
 
     MLP4_score_torch = pow(1.e4,MLP_score_torch)/1.e4;
+
+    //---------------------------------------------------------------------------------------------
+    vector<vector<float>> inputTensorValues = {{LeadingLep_pt, LepLep_pt, LepLep_deltaR, LepLep_deltaM, MET_pt, MET_LepLep_Mt, MET_LepLep_deltaPhi, TrailingLep_pt, MT2LL}};
+    vector<vector<int64_t>> inputTensorDims = {{1, 9}};
+    const char* inputNames[] = {"features"};
+
+    vector<vector<float>> outputTensorValues = {{999.}};
+    vector<vector<int64_t>> outputTensorDims = {{1, 1}};
+    const char* outputNames[] = {"output"};
+
+    vector<float> MLP_score_onnx_vec = MLP_onnx.predict(inputNames, inputTensorValues, inputTensorDims, outputNames, outputTensorValues, outputTensorDims);
+    MLP_score_onnx = MLP_score_onnx_vec.at(0);
+
+    MLP4_score_onnx = pow(1.e4,MLP_score_onnx)/1.e4;
 
 }
 
