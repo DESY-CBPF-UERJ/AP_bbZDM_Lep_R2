@@ -1,8 +1,8 @@
 #include "HEPHero.h"
 
-//---------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
 // Pre-Routines Setup
-//--------------------------------------------------------------------------------------------------------------- 
+//---------------------------------------------------------------------------------------------
 void HEPHero::PreRoutines() {
     
     //=============================================================================================
@@ -10,7 +10,6 @@ void HEPHero::PreRoutines() {
     //=============================================================================================
     lumi_certificate.ReadFile(certificate_file);
     PDFtype();
-    GetMCMetadata();
 
     //----OUTPUT INFO------------------------------------------------------------------------------
     _outputTree->Branch( "evtWeight", &evtWeight );
@@ -268,9 +267,9 @@ void HEPHero::PreRoutines() {
 }
 
 
-//---------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
 // On fly Routines Setup [run before genWeight count]
-//--------------------------------------------------------------------------------------------------------------- 
+//---------------------------------------------------------------------------------------------
 bool HEPHero::RunRoutines() {
     
 
@@ -284,6 +283,161 @@ bool HEPHero::RunRoutines() {
 }
 
 
-    
+//---------------------------------------------------------------------------------------------
+// MCsamples processing
+//---------------------------------------------------------------------------------------------
+bool HEPHero::MC_processing(){
+
+    bool pass_cut = true;
+    string dsName = _datasetName.substr(0,_datasetName.length()-5);
+
+    /*
+    //================================================================================================================================
+    if( (dsName == "DYJetsToLL_Pt-0To65") || (dsName == "DYJetsToLL_Pt-50To100") || (dsName == "DYJetsToLL_Pt-100To250") ){
+        genPt = 0;
+        float pt_cut = 65;
+        float boson_pt = -1;
+        for( unsigned int ipart = 0; ipart < nGenPart; ++ipart ) {
+            if( ((abs(GenPart_pdgId[ipart]) == 11) || (abs(GenPart_pdgId[ipart]) == 13) || (abs(GenPart_pdgId[ipart]) == 15)) &&
+                ((GenPart_pdgId[GenPart_genPartIdxMother[ipart]] == 22) || (GenPart_pdgId[GenPart_genPartIdxMother[ipart]] == 23)) ){
+                int boson_idx = GenPart_genPartIdxMother[ipart];
+                boson_pt = GenPart_pt[boson_idx];
+                break;
+            }else if( ((abs(GenPart_pdgId[ipart]) == 11) || (abs(GenPart_pdgId[ipart]) == 13) || (abs(GenPart_pdgId[ipart]) == 15)) &&
+                ((GenPart_genPartIdxMother[ipart] == 0) || (GenPart_genPartIdxMother[ipart] == 1)) ){
+                TLorentzVector lep1;
+                TLorentzVector lep2;
+                lep1.SetPtEtaPhiM(GenPart_pt[ipart], GenPart_eta[ipart], GenPart_phi[ipart], GenPart_mass[ipart]);
+                lep2.SetPtEtaPhiM(GenPart_pt[ipart+1], GenPart_eta[ipart+1], GenPart_phi[ipart+1], GenPart_mass[ipart+1]);
+                boson_pt = (lep1+lep2).Pt();
+                break;
+            }
+        }
+        if( (dsName == "DYJetsToLL_Pt-0To65") && (boson_pt > pt_cut) ) pass_cut = false;
+        if( (dsName == "DYJetsToLL_Pt-50To100") && (boson_pt <= pt_cut) ) pass_cut = false;
+        if( (dsName == "DYJetsToLL_Pt-100To250") && (boson_pt <= pt_cut) ) pass_cut = false;
+        genPt = boson_pt;
+    }
+
+    //================================================================================================================================
+    string dsName13 = dsName.substr(0,13);
+    if( dsName13 == "DYJetsToLL_HT" ){
+        genHT = 0.;
+        for( size_t ipart = 0; ipart < nGenPart; ++ipart ) {
+            if( GenPart_status[ipart] != 23 ) continue;
+            if( (GenPart_pdgId[ipart] != 21) && (abs(GenPart_pdgId[ipart]) > 6) ) continue;
+            genHT += GenPart_pt[ipart];
+        }
+    }
+    */
+    //================================================================================================================================
+    if( dsName == "DYJetsToLL_Pt-0To3" ){
+
+        if( LHE_Vpt >= 3 ) pass_cut = false;
+
+    }
+
+    if( dsName == "DYJetsToLL_PtZ-3To50" ){
+
+        if( LHE_Vpt < 3 ) pass_cut = false;
+
+    }
+
+    //================================================================================================================================
+    if( dsName == "ZZ_Others" ){
+
+        vector<int> daughters;
+        for( unsigned int ipart = 0; ipart < nGenPart; ++ipart ) {
+            if( (abs(GenPart_pdgId[ipart]) >= 11) && (abs(GenPart_pdgId[ipart]) <= 16) && (GenPart_pdgId[GenPart_genPartIdxMother[ipart]] == 23) ){
+                daughters.push_back(ipart);
+            }
+            if( daughters.size() == 4 ) break;
+        }
+
+        if( daughters.size() == 4 ){
+            int Z1_decay;
+            if( (abs(GenPart_pdgId[daughters[0]]) == 11) && (abs(GenPart_pdgId[daughters[1]]) == 11) ){
+                Z1_decay = 1;
+            }else if( (abs(GenPart_pdgId[daughters[0]]) == 13) && (abs(GenPart_pdgId[daughters[1]]) == 13) ){
+                Z1_decay = 2;
+            }else if( (abs(GenPart_pdgId[daughters[0]]) == 15) && (abs(GenPart_pdgId[daughters[1]]) == 15) ){
+                Z1_decay = 3;
+            }else if( (abs(GenPart_pdgId[daughters[0]]) == 12) && (abs(GenPart_pdgId[daughters[1]]) == 12) ){
+                Z1_decay = 4;
+            }else if( (abs(GenPart_pdgId[daughters[0]]) == 14) && (abs(GenPart_pdgId[daughters[1]]) == 14) ){
+                Z1_decay = 5;
+            }else if( (abs(GenPart_pdgId[daughters[0]]) == 16) && (abs(GenPart_pdgId[daughters[1]]) == 16) ){
+                Z1_decay = 6;
+            }
+
+            int Z2_decay;
+            if( (abs(GenPart_pdgId[daughters[2]]) == 11) && (abs(GenPart_pdgId[daughters[3]]) == 11) ){
+                Z2_decay = 1;
+            }else if( (abs(GenPart_pdgId[daughters[2]]) == 13) && (abs(GenPart_pdgId[daughters[3]]) == 13) ){
+                Z2_decay = 2;
+            }else if( (abs(GenPart_pdgId[daughters[2]]) == 15) && (abs(GenPart_pdgId[daughters[3]]) == 15) ){
+                Z2_decay = 3;
+            }else if( (abs(GenPart_pdgId[daughters[2]]) == 12) && (abs(GenPart_pdgId[daughters[3]]) == 12) ){
+                Z2_decay = 4;
+            }else if( (abs(GenPart_pdgId[daughters[2]]) == 14) && (abs(GenPart_pdgId[daughters[3]]) == 14) ){
+                Z2_decay = 5;
+            }else if( (abs(GenPart_pdgId[daughters[2]]) == 16) && (abs(GenPart_pdgId[daughters[3]]) == 16) ){
+                Z2_decay = 6;
+            }
+
+            if( (Z1_decay >= 1) && (Z1_decay <= 3) && (Z2_decay >= 1) && (Z2_decay <= 3) ){
+                pass_cut = false;
+            }else if( ((Z1_decay >= 1) && (Z1_decay <= 3) && (Z2_decay >= 4) && (Z2_decay <= 6)) || ((Z1_decay >= 4) && (Z1_decay <= 6) && (Z2_decay >= 1) && (Z2_decay <= 3)) ){
+                pass_cut = false;
+            }
+        }
+    }
+
+    //================================================================================================================================
+    if( dsName == "WZ_Others" ){
+
+        vector<int> Z_daughters;
+        vector<int> W_daughters;
+        for( unsigned int ipart = 0; ipart < nGenPart; ++ipart ) {
+            if( (abs(GenPart_pdgId[ipart]) >= 11) && (abs(GenPart_pdgId[ipart]) <= 16) && (GenPart_pdgId[GenPart_genPartIdxMother[ipart]] == 23) ){
+                Z_daughters.push_back(ipart);
+            }
+            if( (abs(GenPart_pdgId[ipart]) >= 11) && (abs(GenPart_pdgId[ipart]) <= 16) && (abs(GenPart_pdgId[GenPart_genPartIdxMother[ipart]]) == 24) ){
+                W_daughters.push_back(ipart);
+            }
+        }
+
+        if( W_daughters.size() == 4 ){
+            if( ((abs(GenPart_pdgId[W_daughters[0]]) == 11) && (abs(GenPart_pdgId[W_daughters[1]]) == 11)) || ((abs(GenPart_pdgId[W_daughters[0]]) == 13) && (abs(GenPart_pdgId[W_daughters[1]]) == 13)) ) W_daughters.erase(W_daughters.begin(),W_daughters.begin()+2);
+        }
+
+        if( (Z_daughters.size() == 2) && (W_daughters.size() == 2) ){
+            int Z_decay = 0;
+            if( (abs(GenPart_pdgId[Z_daughters[0]]) == 11) && (abs(GenPart_pdgId[Z_daughters[1]]) == 11) ){
+                Z_decay = 1;
+            }else if( (abs(GenPart_pdgId[Z_daughters[0]]) == 13) && (abs(GenPart_pdgId[Z_daughters[1]]) == 13) ){
+                Z_decay = 2;
+            }else if( (abs(GenPart_pdgId[Z_daughters[0]]) == 15) && (abs(GenPart_pdgId[Z_daughters[1]]) == 15) ){
+                Z_decay = 3;
+            }
+
+            int W_decay = 0;
+            if( ((abs(GenPart_pdgId[W_daughters[0]]) == 11) && (abs(GenPart_pdgId[W_daughters[1]]) == 12)) || ((abs(GenPart_pdgId[W_daughters[0]]) == 12) && (abs(GenPart_pdgId[W_daughters[1]]) == 11)) ){
+                W_decay = 1;
+            }else if( ((abs(GenPart_pdgId[W_daughters[0]]) == 13) && (abs(GenPart_pdgId[W_daughters[1]]) == 14)) || ((abs(GenPart_pdgId[W_daughters[0]]) == 14) && (abs(GenPart_pdgId[W_daughters[1]]) == 13)) ){
+                W_decay = 2;
+            }else if( ((abs(GenPart_pdgId[W_daughters[0]]) == 15) && (abs(GenPart_pdgId[W_daughters[1]]) == 16)) || ((abs(GenPart_pdgId[W_daughters[0]]) == 16) && (abs(GenPart_pdgId[W_daughters[1]]) == 15)) ){
+                W_decay = 3;
+            }
+
+            if( (Z_decay >= 1) && (Z_decay <= 3) && (W_decay >= 1) && (W_decay <= 3) ){
+                pass_cut = false;
+            }
+        }
+    }
+
+
+    return pass_cut;
+}
 
     

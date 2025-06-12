@@ -1,85 +1,83 @@
-analysis = "AP_bbZDM_Lep_R2"
+analysis = "AP_EFT_ML_R2"
 nano_version = 'v9'
-path_0_16 = analysis+'/Datasets/Files/signal_16/dti_0/'+nano_version+'/'
-path_1_16 = analysis+'/Datasets/Files/signal_16/dti_1/'+nano_version+'/'
-path_0_17 = analysis+'/Datasets/Files/signal_17/dti_0/'+nano_version+'/'
-path_0_18 = analysis+'/Datasets/Files/signal_18/dti_0/'+nano_version+'/'
 
-#----------------------------------------------------------------------------------------
-# ID digits:
-# 1st-2nd = 16(2016),17(2017),18(2018)                      # Year
-# 3th-4th = 00(Data),01(MC-signal),02-13(MC-bkg)            # Group
-# 5th-6th = 00(none),...                                    # Bkg -> Process
-# 5th-6th = 00(none),11(250_30),12(250_40),55(1250_100)     # Signal -> Signal point
-# 5th-6th = 00(none),01(A),02(B),03(C)                      # Data -> Era
-# 7th     = 0,1,2,...                                       # Data taking interval (DTI)
-
+#--------------------------------------------------------------------------------------------------
+# Production ID:
+# 00-09(Data), 10-19(MC-signal), 20-98(MC-bkg), 99(private sample)
+#
+# Data taking interval (DTI):
 # 2016 DTIs = 0(with "HIPM"/"APV")("pre-VFP"), 1(without "HIPM"/"APV")("pos-VFP")
+#--------------------------------------------------------------------------------------------------
+
+paths = {}
+paths["0_16"] = analysis+'/Datasets/Files/signal_16/dti_0/'+nano_version+'/'
+paths["1_16"] = analysis+'/Datasets/Files/signal_16/dti_1/'+nano_version+'/'
+paths["0_17"] = analysis+'/Datasets/Files/signal_17/dti_0/'+nano_version+'/'
+paths["0_18"] = analysis+'/Datasets/Files/signal_18/dti_0/'+nano_version+'/'
+
+
+s_ds_info = { # [DatasetName, Production ID, PROC_XSEC[pb], XSEC_UNC[pb], XSEC_Accuracy]
+"Signal": [
+    ["Signal_400_100",      '10',   0.04477874562,       0,             "unknown"],
+    ["Signal_400_200",      '10',   0.03395530581,       0,             "unknown"],
+    ["Signal_500_100",      '10',   0.02094114758,       0,             "unknown"],
+    ["Signal_500_200",      '10',   0.01931976527,       0,             "unknown"],
+    ["Signal_500_300",      '10',   0.01275722776,       0,             "unknown"],
+    ["Signal_600_100",      '10',   0.00995470304,       0,             "unknown"],
+    ["Signal_600_200",      '10',   0.00981176831,       0,             "unknown"],
+    ["Signal_600_300",      '10',   0.00861876644,       0,             "unknown"],
+    ["Signal_600_400",      '10',   0.00531642372,       0,             "unknown"],
+    ["Signal_800_100",      '10',   0.00260945689,       0,             "unknown"],
+    ["Signal_800_200",      '10',   0.00267848046,       0,             "unknown"],
+    ["Signal_800_300",      '10',   0.00259129377,       0,             "unknown"],
+    ["Signal_800_400",      '10',   0.00239304034,       0,             "unknown"],
+    ["Signal_800_600",      '10',   0.00118851440,       0,             "unknown"],
+    ["Signal_1000_100",     '10',   0.00081577775,       0,             "unknown"],
+    ["Signal_1000_200",     '10',   0.00083496561,       0,             "unknown"],
+    ["Signal_1000_300",     '10',   0.00081513973,       0,             "unknown"],
+    ["Signal_1000_400",     '10',   0.00080103474,       0,             "unknown"],
+    ["Signal_1000_600",     '10',   0.00071681937,       0,             "unknown"],
+    ["Signal_1000_800",     '10',   0.00034042023,       0,             "unknown"],
+    ##["Signal_200_100",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_400_300",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_500_400",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_600_500",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_800_700",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_1000_900",   '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_1400_100",     '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_1400_400",     '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_1400_600",     '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_1400_1000",    '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_1400_1200",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_1400_1300",  '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_2000_100",     '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_2000_400",     '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_2000_600",     '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_2000_1000",    '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_2000_1200",    '99',   0.04477874562,       0,             "temporary"],
+    ["Signal_2000_1800",    '99',   0.04477874562,       0,             "temporary"],
+    ##["Signal_2000_1900",  '99',   0.04477874562,       0,             "temporary"],
+],
+}
+
+
 #----------------------------------------------------------------------------------------
-
-
-periods = ["0_16", "1_16", "0_17", "0_18"]
-paths = [path_0_16, path_1_16, path_0_17, path_0_18]
-
-for period,path in zip(periods,paths):
+# [DO NOT TOUCH THIS PART]
+#----------------------------------------------------------------------------------------
+s_ds = {}
+for period in paths.keys():
     
     dti = period[0]
     year = period[-2:]
-        
-    Signal = [
-        ["Signal_400_100_"+period]           + [year+'0100'+dti, path+"Signal_400_100.txt"],
-        ["Signal_400_200_"+period]           + [year+'0101'+dti, path+"Signal_400_200.txt"],
-        ["Signal_500_100_"+period]           + [year+'0102'+dti, path+"Signal_500_100.txt"],
-        ["Signal_500_200_"+period]           + [year+'0103'+dti, path+"Signal_500_200.txt"],
-        ["Signal_500_300_"+period]           + [year+'0104'+dti, path+"Signal_500_300.txt"],
-        ["Signal_600_100_"+period]           + [year+'0105'+dti, path+"Signal_600_100.txt"],
-        ["Signal_600_200_"+period]           + [year+'0106'+dti, path+"Signal_600_200.txt"],
-        ["Signal_600_300_"+period]           + [year+'0107'+dti, path+"Signal_600_300.txt"],
-        ["Signal_600_400_"+period]           + [year+'0108'+dti, path+"Signal_600_400.txt"],
-        ["Signal_800_100_"+period]           + [year+'0109'+dti, path+"Signal_800_100.txt"],
-        ["Signal_800_200_"+period]           + [year+'0110'+dti, path+"Signal_800_200.txt"],
-        ["Signal_800_300_"+period]           + [year+'0111'+dti, path+"Signal_800_300.txt"],
-        ["Signal_800_400_"+period]           + [year+'0112'+dti, path+"Signal_800_400.txt"],
-        ["Signal_800_600_"+period]           + [year+'0113'+dti, path+"Signal_800_600.txt"],
-        ["Signal_1000_100_"+period]          + [year+'0114'+dti, path+"Signal_1000_100.txt"],
-        ["Signal_1000_200_"+period]          + [year+'0115'+dti, path+"Signal_1000_200.txt"],
-        ["Signal_1000_300_"+period]          + [year+'0116'+dti, path+"Signal_1000_300.txt"],
-        ["Signal_1000_400_"+period]          + [year+'0117'+dti, path+"Signal_1000_400.txt"],
-        ["Signal_1000_600_"+period]          + [year+'0118'+dti, path+"Signal_1000_600.txt"],
-        ["Signal_1000_800_"+period]          + [year+'0119'+dti, path+"Signal_1000_800.txt"],
-        # New signal points
-        ##["Signal_200_100_"+period]           + [year+'9920'+dti, path+"Signal_200_100.txt"],
-        ##["Signal_400_300_"+period]           + [year+'9921'+dti, path+"Signal_400_300.txt"],
-        ##["Signal_500_400_"+period]           + [year+'9922'+dti, path+"Signal_500_400.txt"],
-        ##["Signal_600_500_"+period]           + [year+'9923'+dti, path+"Signal_600_500.txt"],
-        ##["Signal_800_700_"+period]           + [year+'9924'+dti, path+"Signal_800_700.txt"],
-        ##["Signal_1000_900_"+period]          + [year+'9925'+dti, path+"Signal_1000_900.txt"],
-        ["Signal_1400_100_"+period]          + [year+'9926'+dti, path+"Signal_1400_100.txt"],
-        ["Signal_1400_400_"+period]          + [year+'9927'+dti, path+"Signal_1400_400.txt"],
-        ["Signal_1400_600_"+period]          + [year+'9928'+dti, path+"Signal_1400_600.txt"],
-        ["Signal_1400_1000_"+period]         + [year+'9929'+dti, path+"Signal_1400_1000.txt"],
-        ["Signal_1400_1200_"+period]         + [year+'9930'+dti, path+"Signal_1400_1200.txt"],
-        ##["Signal_1400_1300_"+period]         + [year+'9931'+dti, path+"Signal_1400_1300.txt"],
-        ["Signal_2000_100_"+period]          + [year+'9932'+dti, path+"Signal_2000_100.txt"],
-        ["Signal_2000_400_"+period]          + [year+'9933'+dti, path+"Signal_2000_400.txt"],
-        ["Signal_2000_600_"+period]          + [year+'9934'+dti, path+"Signal_2000_600.txt"],
-        ["Signal_2000_1000_"+period]         + [year+'9935'+dti, path+"Signal_2000_1000.txt"],
-        ["Signal_2000_1200_"+period]         + [year+'9936'+dti, path+"Signal_2000_1200.txt"],
-        ["Signal_2000_1800_"+period]         + [year+'9937'+dti, path+"Signal_2000_1800.txt"],
-        ##["Signal_2000_1900_"+period]         + [year+'9938'+dti, path+"Signal_2000_1900.txt"],
-    ]
 
-    #if year == "18":
-    #    Signal.append(["Signal_1000_600_"+period]          + [year+'9918'+dti, path+"Signal_1000_600.txt"])
-    #else:
-    #    Signal.append(["Signal_1000_600_"+period]          + [year+'0118'+dti, path+"Signal_1000_600.txt"])
-        
+    for key in s_ds_info.keys():
+        s_ds[key+"_"+period] = []
+        for ds in s_ds_info[key]:
+            list_temp = []
+            list_temp.append(ds[0]+"_"+period)
+            list_temp.append(ds[1]+year+dti)
+            list_temp.append(paths[period]+ds[0]+".txt")
+            list_temp.append(ds[2])
+            list_temp.append(ds[3])
+            s_ds[key+"_"+period].append(list_temp)
 
-    if period == "0_16":
-        Signal_0_16 = Signal
-    elif period == "1_16":
-        Signal_1_16 = Signal
-    elif period == "0_17":
-        Signal_0_17 = Signal
-    elif period == "0_18":
-        Signal_0_18 = Signal

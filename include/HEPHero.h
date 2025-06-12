@@ -27,17 +27,16 @@ class HEPHero : public HEPBase {
     private:
         static HEPHero* _instance;
 
-        bool RunRoutines();
-        void PreRoutines();
-        
         HEPHero() {}
         HEPHero( char* configFileName );
 
+        bool RunRoutines();
+        void PreRoutines();
+        bool MC_processing();
+        void Weight_corrections();
         void FillControlVariables( string key, string value);
         void VerticalSysSizes();
         void VerticalSys();
-        void Weight_corrections();
-        bool MC_processing();
         void SetupAna();
         bool AnaRegion();
         void AnaSelection();
@@ -78,194 +77,104 @@ class HEPHero : public HEPBase {
     // ANALYSIS SETUP
     //=============================================================================================
 
-        //=====CMS Tools===========================================================================
-        bool PileupJet( int iJet );
-        void HEMissue();
-        bool METFilters();
-        float GetElectronWeight( string sysID );
-        float GetMuonWeight( string sysID );
-        float GetJetPUIDWeight( string sysID );
-        float GetBTagWeight( string sysID, string sysFlavor = "", string sysType = "" );
-        float GetPileupWeight( float Pileup_nTrueInt, string sysType );
-        float GetTriggerWeight( string sysID );
-        float GetPrefiringWeight( string sysID );
-        float GetTopPtWeight();
-        float GetWPtWeight();
-        float GetVJetsHTWeight();
-        void JESvariation();
-        void JERvariation();
-        void PDFtype();
-        bool Jet_GenJet_match( int ijet, float deltaR_cut );
+        //-------------------------------------------------------------------------------
+        // Functions
+        //-------------------------------------------------------------------------------
+
+        //----ANALYSIS-----------------------------------------------
+        void Regions();
+        void Signal_discriminators();
         void Jet_lep_overlap( float deltaR_cut );
-        bool Lep_jet_overlap( int ilep, string type );
-        bool ElectronID( int iobj, int WP );
-        bool MuonID( int iobj, int WP );
-        bool MuonISO( int iobj, int WP );
-        bool JetBTAG( int iobj, int WP );
-
-
-
-        //----LUMI CERTIFICATE-----------------------------
-        string  certificate_file;
-        LumiSections lumi_certificate;
-
-        //----PDF------------------------------------------
-        string  PDF_file;
-        string  PDF_TYPE;
-
-        //----PILEUP---------------------------------------
-        bool    apply_pileup_wgt;
-        double  pileup_wgt;
-        string  pileup_file;
-        shared_ptr<correction::Correction const> pileup_corr;
-
-        //----ELECTRON ID------------------------------------
-        bool    apply_electron_wgt;
-        double  electron_wgt;
-        string  electron_file;
-        shared_ptr<correction::Correction const> electron_ID_corr;
-
-        //----MUON ID--------------------------------------
-        bool    apply_muon_wgt;
-        double  muon_wgt;
-        string  muon_file;
-        shared_ptr<correction::Correction const> muon_RECO_corr;
-        shared_ptr<correction::Correction const> muon_ID_corr;
-        shared_ptr<correction::Correction const> muon_ISO_corr;
-
-        //----JET PU ID------------------------------------
-        bool    apply_jet_puid_wgt;
-        double  jet_puid_wgt;
-        string  jet_puid_file;
-        shared_ptr<correction::Correction const> jet_PUID_corr;
-
-        //----B TAGGING------------------------------------
-        bool    apply_btag_wgt;
-        double  btag_wgt;
-        string  btag_eff_file;
-        string  btag_SF_file;
-        BTagEffAnalyzer btag_eff;
-        shared_ptr<correction::Correction const> btag_bc_corr;
-        shared_ptr<correction::Correction const> btag_udsg_corr;
-
-        //----TRIGGER--------------------------------------
-        bool    apply_trigger_wgt;
-        double  trigger_wgt;
-        string  trigger_SF_file;
-        sf_trigger triggerSF;
-
-        //----PREFIRING------------------------------------
-        bool    apply_prefiring_wgt;
-        double  prefiring_wgt;
-
-        //----JERC------------------------------------------
-        string  jet_jerc_file;
-        shared_ptr<correction::Correction const> jet_JER_SF_corr;
-        shared_ptr<correction::Correction const> jet_JER_PtRes_corr;
-        shared_ptr<correction::Correction const> jet_JES_Unc;
-        shared_ptr<correction::Correction const> jet_JES_L1;
-        shared_ptr<correction::Correction const> jet_JES_L2;
-        shared_ptr<correction::Correction const> jet_JES_L3;
-        shared_ptr<correction::Correction const> jet_JES_Res;
-        shared_ptr<correction::Correction const> jet_JES_L1L2L3Res;
-
-        //----JES------------------------------------------
-        string  JES_MC_file;
-        JES  JES_unc;
-
-        //----JER------------------------------------------
-        bool    apply_jer_corr;
-        //Resolution_Corrector jer_corr;
-        //string JER_file;
-        //string JER_SF_file;
-
-        //----MET------------------------------------------
-        bool    apply_met_xy_corr;
-        TLorentzVector METCorrectionFromJES;
-        TLorentzVector METCorrectionFromJER;
-        bool    apply_met_recoil_corr;
-        string  Z_recoil_file;
-        RecoilCorrector Z_recoil;
-
-        //----TOP------------------------------------------
-        bool    apply_top_pt_wgt;
-        double  top_pt_wgt;
-
-        //----WZ-------------------------------------------
-        bool    apply_w_pt_wgt;
-        double  w_pt_wgt;
-
-        //----VJets----------------------------------------
-        bool    apply_vjets_HT_wgt;
-        double  vjets_HT_wgt;
-
-        //----MUON ROCHESTER-------------------------------
-        bool    apply_muon_roc_corr;
-        Rochester_Corrector muon_roc_corr;
-        string muon_roc_file;
-        Float_t Muon_raw_pt[50];
-
-        //----VERTICAL SYSTEMATICS-------------------------
-        bool get_PDF_sfs;
-        bool get_Scale_sfs;
-        bool get_ISR_sfs;
-        bool get_FSR_sfs;
-        bool get_TopPt_sfs;
-        bool get_WPt_sfs;
-        bool get_Pileup_sfs;
-        bool get_ElectronID_sfs;
-        bool get_MuonID_sfs;
-        bool get_BTag_sfs;
-        bool get_JetPUID_sfs;
-        bool get_Trig_sfs;
-        bool get_PreFir_sfs;
-        bool get_TT1LXS_sfs;
-        bool get_TT2LXS_sfs;
-        bool get_DYXS_sfs;
-
-
-        //---------------------------------------------------------------------------------------------------
-        // Analysis Functions
-        //---------------------------------------------------------------------------------------------------
+        void JetSelection();
+        void Get_Jet_Angular_Variables( int pt_cut = 20 );
         float Recoil_linears( float x, float a1, float b1, float a2, float c );
         void METCorrection();
-        void Signal_discriminators();
-        void Get_Dijet_Variables();
-        void Get_ttbar_Variables();
-        void Regions();
         void LeptonSelection();
         void Get_LeadingAndTrailing_Lepton_Variables();
         void Get_ThirdAndFourth_Lepton_Variables();
         void Get_Leptonic_Info( bool get12 = true, bool get34 = true);
         void Get_LepLep_Variables( bool get12 = true, bool get34 = true);
-        void JetSelection();
-        void Get_Jet_Angular_Variables( int pt_cut = 20 );
-        vector<int> findLeadingAndTrailingBJets( int btagFlag );
-        float JetLepDR( int iJet );
+        void Get_ttbar_Variables();
+        void Get_Dijet_Variables();
         int TruthLepID();
         bool Trigger();
+        vector<int> findLeadingAndTrailingBJets( int btagFlag );
+        float JetLepDR( int iJet );
         bool SignalBJet( int iJet );
         bool SignalEle( int iEle );
         bool SignalMu( int iMu );
-        //float MLClassifier( float LeadingMuPt, float NMuons, float LeadingJetPt, float NJets, float MET, float HT );
-        
-        
-        //---------------------------------------------------------------------------------------------------
-        // Analysis Variables
-        //---------------------------------------------------------------------------------------------------
-        
-        //----ML-------------------------------------------
-        string preprocessing_keras_file;
-        string model_keras_file;
-        NN_Keras MLP_keras;
-        float MLP_score_keras;
-        
-        string model_torch_file;
-        NN_Torch MLP_torch;
-        float MLP_score_torch;
-        float MLP4_score_torch;
-        
-        //----JET------------------------------------------
+
+        //----EXPERIMENT---------------------------------------------
+        bool PileupJet( int iJet );
+        void HEMissue();
+        bool METFilters();
+        void JESvariation();
+        void JERvariation();
+        void PDFtype();
+        bool JetBTAG( int iobj, int WP );
+        bool Jet_GenJet_match( int ijet, float deltaR_cut );
+        bool ElectronID( int iobj, int WP );
+        bool MuonID( int iobj, int WP );
+        bool MuonISO( int iobj, int WP );
+        bool Lep_jet_overlap( int ilep, string type );
+
+        //----WEIGHTS------------------------------------------------
+        float GetPileupWeight( float Pileup_nTrueInt, string sysType );
+        float GetElectronWeight( string sysID );
+        float GetMuonWeight( string sysID );
+        float GetJetPUIDWeight( string sysID );
+        float GetBTagWeight( string sysID, string sysFlavor = "", string sysType = "" );
+        float GetTriggerWeight( string sysID );
+        float GetPrefiringWeight( string sysID );
+        float GetTopPtWeight();
+        float GetWPtWeight();
+        float GetVJetsHTWeight();
+
+
+        //-------------------------------------------------------------------------------
+        // Variables
+        //-------------------------------------------------------------------------------
+
+        //----SELECTION----------------------------------------------
+        float JET_ETA_CUT;
+        float JET_PT_CUT;
+        int   JET_ID_WP;
+        int   JET_PUID_WP;
+        int   JET_BTAG_WP;
+        float JET_LEP_DR_ISO_CUT;
+        float ELECTRON_GAP_LOWER_CUT;
+        float ELECTRON_GAP_UPPER_CUT;
+        float ELECTRON_ETA_CUT;
+        float ELECTRON_PT_CUT;
+        float ELECTRON_LOW_PT_CUT;
+        int   ELECTRON_ID_WP;
+        float MUON_ETA_CUT;
+        float MUON_PT_CUT;
+        float MUON_LOW_PT_CUT;
+        int   MUON_ID_WP;
+        int   MUON_ISO_WP;
+        float TAU_ETA_CUT;
+        float TAU_PT_CUT;
+        float LEPTON_DR_ISO_CUT;
+        float LEADING_LEP_PT_CUT;
+        float LEPLEP_PT_CUT;
+        float MET_CUT;
+        float MET_DY_UPPER_CUT;
+        float LEPLEP_DR_CUT;
+        float LEPLEP_DM_CUT;
+        float MET_LEPLEP_DPHI_CUT;
+        float MET_LEPLEP_MT_CUT;
+
+        //----TRIGGERS-----------------------------------------------
+        bool HLT_SingleEle;
+        bool HLT_DoubleEle;
+        bool HLT_SingleMu;
+        bool HLT_DoubleMu;
+        bool HLT_EleMu;
+        bool HLT_MET;
+        bool HLT_LEP;
+
+        //----JETS---------------------------------------------------
         int Nbjets;
         int Nbjets30;
         int Nbjets_LepIso04;
@@ -287,8 +196,8 @@ class HEPHero : public HEPBase {
         float MHT;
         float MHT30;
         float MHT40;
-        float MHT_trig; 
-        float MDT; 
+        float MHT_trig;
+        float MDT;
         float Jet_abseta_max;
         float OmegaMin;
         float ChiMin;
@@ -304,8 +213,43 @@ class HEPHero : public HEPBase {
         float ThirdLeadingJet_pt;
         float FourthLeadingJet_pt;
         Float_t Jet_JES_pt[100];
-        
-        //----MET------------------------------------------
+        vector<bool> Jet_LepOverlap;
+        TLorentzVector Dijet;
+        float Dijet_pt;
+        float Dijet_M;
+        float Dijet_deltaEta;
+        float Dijet_H_deltaPhi;
+        float Dijet_H_pt;
+
+        //----LEPTONS------------------------------------------------
+        int RecoLepID;  // 11 - reco electron event, 13- reco muon event
+        vector<int> selectedEle;
+        vector<int> selectedEleLowPt;
+        vector<int> selectedMu;
+        vector<int> selectedMuLowPt;
+        vector<int> selectedTau;
+        vector<int> selectedJet;
+        int Nleptons;
+        int NleptonsLowPt;
+        int Nelectrons;
+        int Nmuons;
+        int Ntaus;
+        int IdxLeadingLep;
+        int IdxTrailingLep;
+        int IdxThirdLep;
+        int IdxFourthLep;
+        TLorentzVector lep_1;
+        TLorentzVector lep_2;
+        TLorentzVector lep_3;
+        TLorentzVector lep_4;
+        float LeadingLep_pt;
+        float LeadingLep_eta;
+        float TrailingLep_pt;
+        float TrailingLep_eta;
+        float VVCR_LeadingLep_pt;
+        float Min_dilep_deltaR;
+
+        //----MET----------------------------------------------------
         float MET_RAW_pt;
         float MET_RAW_phi;
         float MET_Unc_pt;
@@ -326,85 +270,26 @@ class HEPHero : public HEPBase {
         float U1;
         float U2;
         TRandom random_recoil_18;
-        
-        //----TRIGGERS-------------------------------------
-        bool HLT_SingleEle;
-        bool HLT_DoubleEle;
-        bool HLT_SingleMu;
-        bool HLT_DoubleMu;
-        bool HLT_EleMu;
-        bool HLT_MET;
-        bool HLT_LEP;
-        
-        //----SELECTION------------------------------------
-        float JET_ETA_CUT;
-        float JET_PT_CUT;
-        int   JET_ID_WP;
-        int   JET_PUID_WP;
-        int   JET_BTAG_WP;
-        float JET_LEP_DR_ISO_CUT;
-        
-        float ELECTRON_GAP_LOWER_CUT;
-        float ELECTRON_GAP_UPPER_CUT;
-        float ELECTRON_ETA_CUT;
-        float ELECTRON_PT_CUT;
-        float ELECTRON_LOW_PT_CUT;
-        int   ELECTRON_ID_WP;
-        
-        float MUON_ETA_CUT;
-        float MUON_PT_CUT;
-        float MUON_LOW_PT_CUT;
-        int   MUON_ID_WP;
-        int   MUON_ISO_WP;
 
-        float TAU_ETA_CUT;
-        float TAU_PT_CUT;
-        
-        float LEPTON_DR_ISO_CUT;
-        
-        float LEADING_LEP_PT_CUT;
-        float LEPLEP_PT_CUT;
-        float MET_CUT;
-        float MET_DY_UPPER_CUT;
-        float LEPLEP_DR_CUT;
-        float LEPLEP_DM_CUT;
-        float MET_LEPLEP_DPHI_CUT;
-        float MET_LEPLEP_MT_CUT;
-        
-        //----GENERAL--------------------------------------
-        vector<int> selectedEle;
-        vector<int> selectedEleLowPt;
-        vector<int> selectedMu;
-        vector<int> selectedMuLowPt;
-        vector<int> selectedTau;
-        vector<int> selectedJet;
-        vector<bool> Jet_LepOverlap;
-        int RecoLepID;  // 11 - reco electron event, 13- reco muon event
-        const float Z_pdg_mass = 91.1876; //GeV
-        const float Muon_pdg_mass = 0.105658; //GeV
-        const float Electron_pdg_mass = 0.000510999; //GeV
-        int IdxLeadingLep;
-        int IdxTrailingLep;
-        int IdxThirdLep;
-        int IdxFourthLep;
-        TLorentzVector lep_1;
-        TLorentzVector lep_2;
-        TLorentzVector lep_3;
-        TLorentzVector lep_4;
-        float LeadingLep_pt;
-        float LeadingLep_eta;
-        float TrailingLep_pt;
-        float TrailingLep_eta;
-        float VVCR_LeadingLep_pt;
-        float LepLep_mass;
-        float LepLep_pt;
-        float LepLep_deltaR;
-        float LepLep_phi;
-        float LepLep_eta;
-        float LepLep_deltaM;
-        float MET_LepLep_deltaPhi;
-        float MET_LepLep_Mt;
-        float MET_LepLep_deltaPt;
+        //----MACHINE LEARNING---------------------------------------
+        string preprocessing_keras_file;
+        string model_keras_file;
+        NN_Keras MLP_keras;
+        float MLP_score_keras;
+        string model_torch_file;
+        NN_Torch MLP_torch;
+        float MLP_score_torch;
+        float MLP4_score_torch;
+
+        //----HEM----------------------------------------------------
+        bool HEM_issue_ele;
+        bool HEM_issue_jet;
+        bool HEM_issue_ele_v2;
+        bool HEM_issue_jet_v2;
+        bool HEM_issue_met;
+        bool HEM_filter;
+
+        //----EXTRA LEPTONS INFO-------------------------------------
         float Lep3Lep4_deltaM;
         float Lep3Lep4_M;
         float Lep3Lep4_pt;
@@ -425,17 +310,21 @@ class HEPHero : public HEPBase {
         float Lep3_Jet_deltaR;
         float Lep3_dxy;
         float Lep3_dz;
-        float Min_dilep_deltaR;
-        int Nleptons;
-        int NleptonsLowPt;
-        int Nelectrons;
-        int Nmuons;
-        int Ntaus;
-        float Dijet_pt; 
-        float Dijet_M;
-        float Dijet_deltaEta;
-        float Dijet_H_deltaPhi;
-        float Dijet_H_pt;
+
+        //----LEPLEP & MET-------------------------------------------
+        TLorentzVector LepLep;
+        TLorentzVector MET;
+        float LepLep_mass;
+        float LepLep_pt;
+        float LepLep_deltaR;
+        float LepLep_phi;
+        float LepLep_eta;
+        float LepLep_deltaM;
+        float MET_LepLep_deltaPhi;
+        float MET_LepLep_Mt;
+        float MET_LepLep_deltaPt;
+
+        //----TTBAR--------------------------------------------------
         float MT2LL;
         int ttbar_reco;
         float ttbar_mass;
@@ -443,40 +332,134 @@ class HEPHero : public HEPBase {
         int ttbar_reco_v2;
         float ttbar_mass_v2;
         float ttbar_score_v2;
-        bool HEM_issue_ele;
-        bool HEM_issue_jet;
-        bool HEM_issue_ele_v2;
-        bool HEM_issue_jet_v2;
-        bool HEM_issue_met;
-        bool HEM_filter;
 
-        int IdxBestMu;
-        int IdxBestTau;
-        float TauH_pt;
-        float MuonL_pt;
-        float MuonL_MET_pt;
-        float MuonL_MET_dphi;
-        float MuonL_MET_Mt;
-        float TauH_TauL_pt;
-        float TauH_TauL_dphi;
-        float TauH_TauL_Mt;
-        float TauH_MuonL_M;
-        float TauH_MuonL_pt;
-        float TauH_MuonL_dr;
-        bool Has_2OC_muons;
-        float LeadingJet_MuonL_dr;
-        float LeadingJet_TauL_dphi;
-        float LeadingJet_TauH_dr;
-        float LeadingJet_TauHMuonL_dr;
+        //----CONSTANTS----------------------------------------------
+        const float Z_pdg_mass = 91.1876; //GeV
+        const float Muon_pdg_mass = 0.105658; //GeV
+        const float Electron_pdg_mass = 0.000510999; //GeV
 
-        
-        //float genHT;
-        //float genPt;
-        
-        TLorentzVector LepLep;
-        TLorentzVector Dijet;
-        TLorentzVector MET;
+        //----VERTICAL SYSTEMATICS-----------------------------------
+        bool get_PDF_sfs;
+        bool get_Scale_sfs;
+        bool get_ISR_sfs;
+        bool get_FSR_sfs;
+        bool get_TopPt_sfs;
+        bool get_WPt_sfs;
+        bool get_Pileup_sfs;
+        bool get_ElectronID_sfs;
+        bool get_MuonID_sfs;
+        bool get_BTag_sfs;
+        bool get_JetPUID_sfs;
+        bool get_Trig_sfs;
+        bool get_PreFir_sfs;
+        bool get_TT1LXS_sfs;
+        bool get_TT2LXS_sfs;
+        bool get_DYXS_sfs;
 
+
+        //-------------------------------------------------------------------------------
+        // Weights and Metadata
+        //-------------------------------------------------------------------------------
+
+        //----LUMI CERTIFICATE-----------------------------
+        string  certificate_file;
+        LumiSections lumi_certificate;
+
+        //----PDF------------------------------------------
+        string  PDF_file;
+        string  PDF_TYPE;
+
+        //----JES------------------------------------------
+        string  JES_MC_file;
+        JES  JES_unc;
+
+        //----JER------------------------------------------
+        bool    apply_jer_corr;
+        //Resolution_Corrector jer_corr;
+        //string JER_file;
+        //string JER_SF_file;
+
+        //----ELECTRON ID------------------------------------
+        bool    apply_electron_wgt;
+        double  electron_wgt;
+        string  electron_file;
+        shared_ptr<correction::Correction const> electron_ID_corr;
+
+        //----MUON ID--------------------------------------
+        bool    apply_muon_wgt;
+        double  muon_wgt;
+        string  muon_file;
+        shared_ptr<correction::Correction const> muon_RECO_corr;
+        shared_ptr<correction::Correction const> muon_ID_corr;
+        shared_ptr<correction::Correction const> muon_ISO_corr;
+
+        //----JET PU ID------------------------------------
+        bool    apply_jet_puid_wgt;
+        double  jet_puid_wgt;
+        string  jet_puid_file;
+        shared_ptr<correction::Correction const> jet_PUID_corr;
+
+        //----JERC------------------------------------------
+        string  jet_jerc_file;
+        shared_ptr<correction::Correction const> jet_JER_SF_corr;
+        shared_ptr<correction::Correction const> jet_JER_PtRes_corr;
+        shared_ptr<correction::Correction const> jet_JES_Unc;
+        shared_ptr<correction::Correction const> jet_JES_L1;
+        shared_ptr<correction::Correction const> jet_JES_L2;
+        shared_ptr<correction::Correction const> jet_JES_L3;
+        shared_ptr<correction::Correction const> jet_JES_Res;
+        shared_ptr<correction::Correction const> jet_JES_L1L2L3Res;
+
+        //----B TAGGING------------------------------------
+        bool    apply_btag_wgt;
+        double  btag_wgt;
+        string  btag_eff_file;
+        string  btag_SF_file;
+        BTagEffAnalyzer btag_eff;
+        shared_ptr<correction::Correction const> btag_bc_corr;
+        shared_ptr<correction::Correction const> btag_udsg_corr;
+
+        //----TRIGGER--------------------------------------
+        bool    apply_trigger_wgt;
+        double  trigger_wgt;
+        string  trigger_SF_file;
+        sf_trigger triggerSF;
+
+        //----PILEUP---------------------------------------
+        bool    apply_pileup_wgt;
+        double  pileup_wgt;
+        string  pileup_file;
+        shared_ptr<correction::Correction const> pileup_corr;
+
+        //----MUON ROCHESTER-------------------------------
+        bool    apply_muon_roc_corr;
+        Rochester_Corrector muon_roc_corr;
+        string muon_roc_file;
+        Float_t Muon_raw_pt[50];
+
+        //----MET------------------------------------------
+        bool    apply_met_xy_corr;
+        TLorentzVector METCorrectionFromJES;
+        TLorentzVector METCorrectionFromJER;
+        bool    apply_met_recoil_corr;
+        string  Z_recoil_file;
+        RecoilCorrector Z_recoil;
+
+        //----PREFIRING------------------------------------
+        bool    apply_prefiring_wgt;
+        double  prefiring_wgt;
+
+        //----TOP------------------------------------------
+        bool    apply_top_pt_wgt;
+        double  top_pt_wgt;
+
+        //----WZ-------------------------------------------
+        bool    apply_w_pt_wgt;
+        double  w_pt_wgt;
+
+        //----VJets----------------------------------------
+        bool    apply_vjets_HT_wgt;
+        double  vjets_HT_wgt;
 
 
     
